@@ -4,7 +4,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Live Website
 
-https://nft-collections-beta.vercel.app/
+https://nft-collections-tttp.vercel.app/
 
 ## Available Scripts
 
