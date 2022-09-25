@@ -3,6 +3,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ##Live Website
+
 https://nft-collections-beta.vercel.app/
 
 ## Available Scripts
