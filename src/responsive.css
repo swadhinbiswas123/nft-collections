@@ -1,0 +1,222 @@
+@media screen and (min-width: 1540px) {
+
+   h1,
+   h2,
+   h3,
+   h4,
+   h5 p {
+      font-size: 2.5rem;
+   }
+
+   .hero-text-ariya>h1 {
+      font-size: 75px;
+      padding: 20px;
+   }
+
+   .hero-text-ariya>p {
+      font-size: 25px;
+      padding: 20px;
+   }
+
+   .hero-btn {
+      margin: 20px;
+      height: 90px;
+      width: 470px;
+   }
+
+   .logo-section>img {
+      width: 450px;
+   }
+
+   .card-section {
+      height: 90px;
+      width: 303px;
+   }
+
+   .card-section>h3 {
+      font-size: 25px;
+   }
+
+   /* .hero-section{
+      padding-top:5%;
+   } */
+   .hero-btn>h3 {
+      font-size: 25px;
+   }
+
+   i {
+      font-size: 45px;
+   }
+
+   .product-ariya {
+      padding: 8px 27px 8px 27px;
+   }
+
+   .product-prising-section>h4 {
+      font-size: 27px;
+   }
+
+   .buynow-btn {
+      height: 80px;
+      width: 285px;
+   }
+
+   .pro-output {
+      font-size: 23px;
+      height: 53px;
+      width: 68px;
+   }
+   .pro-price{
+      font-size: 20px;
+      height: 53px;
+      width: 160px;
+   }
+   .price-quentity>h5{
+      font-size: 20px;
+   }
+   .low-btn,
+   .high-btn {
+      width: 54px;
+      height: 55px;
+      font-size: 47px;
+   }
+}
+@media screen and (min-width: 1280px){
+   .hero-section{
+      justify-content: space-around
+   }
+}
+
+/* @media screen and (min-width: 1024px){
+   .hero-section{
+      justify-content: space-around
+   }
+} */
+
+@media screen and (min-width: 786px){
+    .hero-section{
+       /* height: 80vh;
+       overflow: hidden; */
+    } 
+ 
+ }
+ @media screen and (max-width: 740px) {
+    /* header {
+       height: 18vh;
+    } */
+ 
+    nav {
+       flex-direction: column;
+       margin-bottom: 30px;
+    }
+ 
+    .logo-section {
+       display: flex;
+       flex-direction: column;
+       margin: 0px 15px 0px 15px;
+    }
+ 
+    .card-section {
+       margin: 15px;
+       text-align: center;
+    }
+ 
+    .card-section>h3 {
+       font-weight: 300;
+    }
+ 
+    .hero-section {
+       display: block;
+       /* height: 100vh; */
+       margin-bottom: 15px;
+    }
+ 
+    .hero-text-ariya {
+       margin: 8px 8px 25px 8px;
+    }
+ 
+    .hero-text-ariya>h1 {
+       font-size: 30px;
+    }
+ 
+    .hero-btn>h3 {
+       font-size: 12px;
+    }
+ 
+    .hero-text-ariya, 
+    .product-ariya {
+       max-width: 90%;
+    }
+    .hero-text-ariya, .thanks-div{
+      max-width: 90%;
+  }
+    .product-ariya {
+       margin: 0px 4px 0px 4px;
+    }
+ 
+    .pro-output {
+       width: 60px;
+    }
+ 
+    .pro-price {
+       width: 120px;
+    }
+ }
+ 
+ @media screen and (max-width: 425px) {
+    /* header {
+       height: 21vh;
+    } */
+ 
+    .logo-section {
+       margin: 0px 45px 0px 45px;
+    }
+ 
+    .card-section {
+       /* display: none; */
+       margin: 10px 40px 0px 40px;
+    }
+    .hero-section{
+       flex-direction: column;
+    }
+    .hero-text-ariya>h1 {
+       font-size: 25px;
+       text-align: center
+    }
+
+    .hero-text-ariya>p{
+      line-height: 1.4;
+      width: 100%;
+      text-align: center;
+  }
+
+  .hero-text-ariya{
+      margin: 15px;
+   }
+
+   .product-ariya{
+      margin: 15px;
+   }
+
+   .thanks-div{
+      margin-top: 15px;
+   }
+ 
+    .hero-btn {
+       height: 56px;
+       width: auto;
+       margin-top: 21px;
+    }
+ 
+    .hero-btn>h3 {
+       font-size: 12px;
+    }
+ 
+    .pro-output {
+       width: 50px;
+    }
+ 
+    .pro-price {
+       width: 95px;
+    }
+ }
