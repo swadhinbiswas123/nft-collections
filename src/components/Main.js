@@ -5,10 +5,21 @@ import '../App.css';
 import "../responsive.css";
 import logo from "../images/logo.png";
 import {ethers} from "ethers";
-import contract_abi from "./contract_abi/contract_abi.json";
+import contract_abi_one from "./contract_abi/contract_abi.json";
+import contract_abi_two from "./contract_abi/contract_abi.json";
 import Thanks from "./Thanks";
-import Modal from "./Modal";
+import { toast } from 'react-toastify';
 
+const options = {
+    position: "bottom-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "colored",
+}
  
 const providerOptions = {
     walletconnect: {
@@ -20,35 +31,33 @@ const providerOptions = {
 }
 
 function Main() {
-    const [isWhiteListed, setIsWhiteListed] = useState(false);
     const [contract, setContract] = useState({});
+    const [keysContract, setKeysContract] = useState({});
     const [isWalletConnected, setIsWalletConnected] = useState(false);
-    const [quantity, setQuantity] = useState(0);
+    const [wisdomQuantity, setWisdomQuantity] = useState(0);
+    const [keysQuantity, setKeysQuantity] = useState(0);
     const [showPrice, setShowPrice] = useState(0);
+    const [keysShowPrice, setKeysShowPrice] = useState(0);
     const [loading, setloading] = useState(false);
     const [txhash, setTxhash] = useState("");
     const [istran, setIsTran] = useState(false);
     const [tokenTotalSupply, setTokenTotalSupply] = useState(0);
-    const [isModalOpen, setIsModalOpen]= useState(false);
+    const [tokenMaxSupply, setTokenMaxSupply] = useState(0);
     const [errorMsg, setErrorMsg] = useState(0)
     const [mintingEnabled, seMintingEnabled] = useState(null);
-    const [addr, setAddr] = useState("")
-    const contract_Add = process.env.REACT_APP_CONTRACT_ADD
+    const contract_Add_One = "0x2Ec2AcA2e9662f3EB66ABB7cd5c22cE0Ca8c0df9"
+    const contract_Add_Two = "0x2Ec2AcA2e9662f3EB66ABB7cd5c22cE0Ca8c0df9"
 
-    const increment = ()=>{
+    const increment = (quantity, setQuantity)=>{
         if(isWalletConnected === true){
-            if(isWhiteListed === true){
-                let newCount = quantity + 1;
-                setQuantity(newCount);
-            }else{
-                alert("Sorry! You are not whitelisted")
-            }
+            let newCount = quantity + 1;
+            setQuantity(newCount);
         }else{
-            alert("Please connect your wallet");
+            toast.error("Please connect your wallet", options);
         }
     }
 
-    const decrement = ()=>{
+    const decrement = (quantity, setQuantity)=>{
         if(isWalletConnected === true){
         let newCount = quantity - 1;
         if(newCount <= 0){
@@ -57,7 +66,7 @@ function Main() {
             setQuantity(newCount);
         }
         }else{
-            alert("Please connect your wallet"); 
+            toast.error("Please connect your wallet", options); 
         }
     }
 
@@ -73,29 +82,26 @@ function Main() {
                 const provider = new ethers.providers.Web3Provider(instance);
                 await provider.send("eth_requestAccounts", []);
                 const { chainId } = await provider.getNetwork()
-                if(chainId === 5){
+            if (chainId === 5) {
+                    console.log(contract_Add_One);
                     const signer = await provider.getSigner();
                     const signerAddress = await signer.getAddress();
-                    const nftCollections = new ethers.Contract(contract_Add, contract_abi, signer);
-                    let maxSupply = await nftCollections.maxSupply();
-                    if(nftCollections){
+                    const nftCollections = new ethers.Contract(contract_Add_One, contract_abi_one, signer);
+                    const keysCollections = new ethers.Contract(contract_Add_Two, contract_abi_two, signer);
+                    // let maxSupply = (await nftCollections.maxSupply()).toString();
+                    // let totalSupply = (await nftCollections.totalSupply()).toString();
+                    if(nftCollections && keysCollections){
                         setContract(nftCollections);
-                        setAddr(signerAddress);
+                        setKeysContract(keysCollections);
                         setIsWalletConnected(true);
+                        // setTokenTotalSupply(totalSupply);
+                        // setTokenMaxSupply(maxSupply);
                         setloading(true);
                     }
-                    let newAdd = signerAddress.toString();
-                    let whitelisted = await nftCollections.whiteList(newAdd);
                     let mintingStatus = await nftCollections.isMintingEnabled();
                     seMintingEnabled(mintingStatus);
-                    if(whitelisted === true){
-                        setIsWhiteListed(true);
-                        setloading(false);
-                    }else{
-                        setIsWhiteListed(false);
-                    }
-                } else{
-                    alert("Please Select Goerli Network");
+                } else {
+                    toast.error("Please Select Goerli Network", options);
                 }
 
         }catch(error){
@@ -104,55 +110,84 @@ function Main() {
 
     }
 
+    const error = () => {
+        if (errorMsg === -32000) {
+          toast.error("Insufficient Balance, please check your balance", options);
+        } else if (errorMsg === -32603) {
+          toast.error("You have to mint at least 1 NFT", options);
+        } else if (mintingEnabled === false) {
+          toast.error("Minting has not started yet", options);
+        } else {
+          toast.error("Check the quantity or wallet balance or you denied the transaction", options);
+        }
+      }
+
     const mint = async()=>{
         let mintPrice;
         let tx;
-        try{
-            if(isWhiteListed){
+        try {
+            if (wisdomQuantity > 0) {
                 mintPrice = ethers.utils.parseEther("0.01");
-                let value = (quantity * mintPrice).toString();
-              tx = await contract.mint(quantity, {value:value});
-              if(tx){
-                let newTx = tx.hash;
-                setTxhash(newTx);
-                setIsTran(true);
-               }
+                let value = (wisdomQuantity * mintPrice).toString();
+                tx = await contract.mint(wisdomQuantity, {value:value});
+                if(tx){
+                    let newTx = tx.hash;
+                    setTxhash(newTx);
+                    setIsTran(true);
+                }
+            } else {
+                toast.error("You have to mint at least 1 NFT", options);
             }
-            else{
-                alert("Sorry! You are not whitelisted");
-            }
-            let supply = await contract.totalSupply();
-            setTokenTotalSupply(supply);
         }catch(err){
-            setIsModalOpen(true);
             setErrorMsg(err.error.code);
+            error();
         }
 
     }
 
-    const whiteListing = async ()=>{
-        let tx = await contract.setWhiteList([addr]);
-        let rs = await tx.wait();
-        if(rs){
-            window.location.reload(false);
+    const mintKeys = async()=>{
+        let mintPrice;
+        let tx;
+        try {
+            if (keysQuantity > 0) {
+                mintPrice = ethers.utils.parseEther("0.5");
+                let value = (keysQuantity * mintPrice).toString();
+                tx = await contract.mint(keysQuantity, {value:value});
+                if(tx){
+                    let newTx = tx.hash;
+                    setTxhash(newTx);
+                    setIsTran(true);
+                }
+            } else {
+                toast.error("You have to mint at least 1 NFT", options);
+            }
+        }catch(err){
+            setErrorMsg(err.error.code);
+            error();
         }
+
     }
 
     useEffect(()=>{
-    if(isWhiteListed){
-        let price = (quantity * .01).toFixed(2);
+    if(isWalletConnected){
+        let price = (wisdomQuantity * .01).toFixed(2);
         setShowPrice(price);
     }
-    }, [quantity, isWhiteListed])
+    }, [wisdomQuantity])
 
+    useEffect(()=>{
+        if(isWalletConnected){
+            let price = (keysQuantity * .5).toFixed(2);
+            setKeysShowPrice(price);
+        }
+        }, [keysQuantity])
 
 
     return (
         <>
-        {isModalOpen ? <Modal errorMsg={errorMsg} setIsModalOpen={setIsModalOpen}  mintingEnabled={mintingEnabled}/>: ""}
         <header>
         <nav>
-            <div className="logo-section"><a href="/"><img src={logo} alt="NFT Collections" /></a></div>
+            <div className="logo-section"><a href="/"><img className="logo" src={logo} alt="NFT Collections" /></a></div>
             <div className="card-section" onClick={walletConnect}>
                 <h3>{isWalletConnected ? "Wallet Connected 👍" : "Connect Wallet"}</h3>
             </div>
@@ -168,22 +203,21 @@ function Main() {
             </div>
             {istran ? <Thanks txhash={txhash} /> :
             <div className="product-ariya">
-                <h3>THE NFT COLLECTIONS</h3>
+                <h3>Wisdom Keys</h3>
                 <div className="product-prising-section">
-                    <h4>Price <span>0.01 ETH</span></h4>
+                    <h4>Price <span>0.05 ETH</span></h4>
                 </div>
                 <h3>Put the number of NFTs</h3>
                 <div className="price-quentity">
                     <h5>Quantity</h5>
                     <h5>Total Price</h5>
                 </div> 
-                {tokenTotalSupply !== 50 ?
                 <div className="product-cal">
-                    <button className="low-btn" onClick={decrement}>-</button>
-                    <h5 className="pro-output">{quantity}</h5>
-                    <button className="high-btn" onClick={increment}>+</button>
+                    <button className="low-btn" onClick={()=>decrement(wisdomQuantity, setWisdomQuantity)}>-</button>
+                    <h5 className="pro-output">{wisdomQuantity}</h5>
+                    <button className="high-btn" onClick={()=>increment(wisdomQuantity, setWisdomQuantity)}>+</button>
                     <h5 className="pro-price"><span>{showPrice} ETH</span></h5>
-                </div> :<h4 style={{color:"red"}}>Sold Out</h4>}
+                </div> 
                 { isWalletConnected ?
                 <div className="buynow-section">
                     <button className="buynow-btn" type="submit" onClick={mint}>
@@ -192,17 +226,37 @@ function Main() {
                 </div>
                 :<h3>Connect your wallet first</h3>
                 }
+            </div>}
+        </div>
+        <div className="secondCollection">
+            <p> <span className="span">Mint Keys to the Castle NFTs</span></p>
+            {istran ? <Thanks txhash={txhash} /> :
+            <div className="keys-product-ariya">
+                <h3>Keys to the Castle</h3>
+                <div className="product-prising-section">
+                    <h4>Price <span>0.5 ETH</span></h4>
+                </div>
+                <h3>Put the number of NFTs</h3>
+                <div className="price-quentity">
+                    <h5>Quantity</h5>
+                    <h5>Total Price</h5>
+                </div> 
+                <div className="product-cal">
+                    <button className="low-btn" onClick={()=>decrement(keysQuantity, setKeysQuantity)}>-</button>
+                    <h5 className="pro-output">{keysQuantity}</h5>
+                    <button className="high-btn" onClick={()=>increment(keysQuantity, setKeysQuantity)}>+</button>
+                    <h5 className="pro-price"><span>{keysShowPrice} ETH</span></h5>
+                </div> 
                 { isWalletConnected ?
                 <div className="buynow-section">
-                    <button className="buynow-btn" type="submit" onClick={whiteListing}>
-                    <h3>{isWhiteListed ? "Whitelisted✌️✌️" : "👉Whitelist Me!"}</h3>
+                    <button className="buynow-btn" type="submit" onClick={mintKeys}>
+                    <h3>Mint Now</h3>
                     </button>
                 </div>
-                :""
+                :<h3>Connect your wallet first</h3>
                 }
-            </div>}
-        </div> 
-
+            </div>}        
+        </div>
     </section>
         </>
     );

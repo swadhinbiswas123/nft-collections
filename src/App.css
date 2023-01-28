@@ -8,7 +8,7 @@
 body {
     font-family: 'Gretoon', "Audiowide", sans-serif;
     background-color: #010F2C; 
-    background:  linear-gradient(#010f2c77, #010f2c77), url(images/bg-image-copy-3.png) ;
+    background:  linear-gradient(#010f2c77, #010f2c77), url(images/bg-image.png) ;
     background-size: cover;
     /* background-repeat: no-repeat; */
     margin: 0;
@@ -30,9 +30,11 @@ nav {
     padding: 5px 10px 5px 10px;
     margin-right: 33%;
 }
-
+.logo{
+    width: 40%;
+}
 .card-section {
-    background-color: #791856;
+    background-color: #B97535;
     padding: 0px 20px 0px 20px;
     border-radius: 10px;
     /* box-shadow: 5px 5px 0px #CE1598; */
@@ -50,7 +52,7 @@ h5, p{
     color: white;
 }
 h1, h2, h3{
-    background: -webkit-linear-gradient(#FBD53A, #01FED1);
+    background: -webkit-linear-gradient(#ff0000, #cfd7cc);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -82,11 +84,12 @@ i {
     line-height: 1.4;
     width: 85%;
 }
+
 .hero-btn{
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #791856;
+    background-color: #324ab2;
     height: 60px;
     width: 250px;
     margin-top: 35px;
@@ -97,17 +100,18 @@ i {
 .hero-btn>h3{
     font-size: 13px;
 }
+
 .product-ariya{
     text-align: center;
-    background-color:#051129;
-    border: 2px solid rgb(87, 0, 128);
+    background-color:#1E2B33;
+    border: 2px solid #EBBD56;
     padding: 8px 12px 8px 12px ;
     margin: 10px 20px 10px 20px;
     border-radius: 10px;
 }
 .product-prising-section{
-    border: 1px solid rgb(87, 0, 128);
-    background-image: linear-gradient(#791856, #ce159767);
+    border: 1px solid #324AB2;
+    background-image: linear-gradient(#791818, #ff141467);
     border-radius: 10px;
 }
 .product-prising-section>h3{
@@ -180,7 +184,7 @@ i {
     justify-content: center;
     align-items: center;
     border: 0;
-    background-color: #791856;
+    background-color: #B97535;
     height: 40px;
     width: 150px;
     margin: 5px 25px 25px 25px ;
@@ -215,4 +219,42 @@ a{
 .thanksbtn{
     font-family: 'Gretoon', sans-serif;
     cursor: pointer!important;
+}
+
+.secondCollection{
+    margin: 100px auto;
+    text-align: center;
+}
+
+.secondCollection > p{
+    color: #B97535;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+p > .span{
+    display: inline-block;
+    background: white;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 5px;
+    box-shadow: 5px 5px 10px 2px #781C1F;
+}
+
+.keys-product-ariya{
+    max-width: 25%;
+    text-align: center;
+    background-color:#1E2B33;
+    border: 2px solid #EBBD56;
+    padding: 8px 12px 8px 12px ;
+    margin: 10px 20px 10px 20px;
+    border-radius: 12px;
+    margin-left: 36.5%;
+}
+
+.card-section > h3, button > h3{
+    background: -webkit-linear-gradient(#ffffff, #cfd7cc) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
 }
